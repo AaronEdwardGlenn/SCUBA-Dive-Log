@@ -1,6 +1,6 @@
 const { Router } = require('express');
-const ensureAuth = require('../middleware/ensure-auth');
-const User = require('../models/User');
+const ensureAuth = require('../lib/middleware/ensure-auth');
+const User = require('../lib/modles/User');
 
 const MAX_AGE_IN_MS = 24 * 60 * 60 * 1000;
 
