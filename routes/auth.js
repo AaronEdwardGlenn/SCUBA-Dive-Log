@@ -32,6 +32,6 @@ module.exports = Router()
       .catch(next);
   })
 
-  .get('/verify', ensureAuth, (req, res, next) => {
+  .get('/verify', ensureAuth, (req, res) => {
     res.send(req.user);
   });
