@@ -22,7 +22,7 @@ module.exports = Router()
     ])
       .then(([dive]) => res.send ({ ...dive.toJSON() }));
   })
-  .patch('/id', (req, res) => {
+  .patch('/:id', (req, res) => {
     Dives
       .findByIdAndUpdate(req.params.id, req.body, { new: true })
       .then(dive => res.send(dive));
