@@ -121,7 +121,7 @@ describe('Dive model routes', () => {
         notes: 'Saw a million salmon!'
       }
     ]);
-    return request(app)
+    return agent
       .get('/api/v1/dives')
       .then(res => {
         dives.forEach(dive => {
@@ -134,7 +134,7 @@ describe('Dive model routes', () => {
   });
 
   it('can grab a logged dive by id', async() => {
-    return request(app)
+    return agent
       .get(`/api/v1/dives/${dive._id}`)
       .then(res => {
         expect(res.body).toEqual({
@@ -151,7 +151,7 @@ describe('Dive model routes', () => {
       });
   });
   it('can update a logged dive', () => {
-    return request(app)
+    return agent
       .patch(`/api/v1/dives/${dive.id}`)
       .send({ time: '4:00pm' })
       .then(res => {
@@ -169,7 +169,7 @@ describe('Dive model routes', () => {
       });
   });
   it('can delete a logged dive', () => {
-    return request(app)
+    return agent
       .delete(`/api/v1/dives/${dive.id}`)
       .then(res => {
         expect(res.body).toEqual({
