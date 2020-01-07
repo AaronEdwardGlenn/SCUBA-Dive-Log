@@ -4,10 +4,30 @@ const request = require('supertest');
 const app = require('../lib/app');
 const connect = require('../lib/utils/connect');
 const Dives = require('../lib/modles/Dives');
+const User = require('../lib/modles/User');
+
+let agent;
+let user;
 
 describe('Dive model routes', () => {
-  beforeAll(() => {
+  beforeAll(async() => {
     connect(); 
+
+    agent = request.agent(app);
+
+    user = await User 
+      .create({
+        email: 'cool@cool.com',
+        password: 'password1'
+      });
+
+    await agent 
+      .post('/api/v1/auth/login')
+      .send({
+        email: 'cool@cool.com',
+        password: 'password1'
+      });
+
   });
 
   beforeEach(() => {
@@ -34,8 +54,8 @@ describe('Dive model routes', () => {
     return mongoose.connection.close(); 
   });
 
-  it('logges a new dive', () => {
-    return request(app)
+  it('logges a new dive', async() => {
+    return agent
       .post('/api/v1/dives')
       .send({
         location: 'Octopus Hole, Hoodsport, WA, USA',
@@ -60,6 +80,7 @@ describe('Dive model routes', () => {
         });
       });
   });
+  
   it('returns all logged dives', async() => {
     let dives = await Dives.create([
       {
@@ -110,6 +131,7 @@ describe('Dive model routes', () => {
         });
       });
   });
+
   it('can grab a logged dive by id', async() => {
     return request(app)
       .get(`/api/v1/dives/${dive._id}`)

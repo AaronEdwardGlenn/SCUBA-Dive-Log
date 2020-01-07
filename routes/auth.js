@@ -13,6 +13,8 @@ const setSessionCookie = (res, token) => {
 // eslint-disable-next-line new-cap
 module.exports = Router()
   .post('/signup', (req, res, next) => {
+    console.log('insignup', req.body);
+    
     User
       .create(req.body)
       .then(user => {
@@ -32,6 +34,10 @@ module.exports = Router()
       .catch(next);
   })
 
-  .get('/verify', ensureAuth, (req, res) => {
-    res.send(req.user);
+  // eslint-disable-next-line no-unused-vars
+  .get('/verify', ensureAuth, (req, res, next) => {
+    console.log(req.user);
+    
+    res.send(req.user)
+      .catch(next);
   });

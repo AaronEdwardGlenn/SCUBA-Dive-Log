@@ -6,9 +6,30 @@ const connect = require('../lib/utils/connect');
 const mongoose = require('mongoose');
 const User = require('../lib/modles/User.js'); 
 
+let agent; 
+let user; 
+
 describe('app routes', () => {
-  beforeAll(() => {
+  
+  beforeAll(async() => {
     connect();
+
+    agent = request.agent(app);
+
+    user =  await User
+      .create({
+        email: 'cool@cool.com',
+        password: 'password1'
+      });
+  });
+
+  beforeEach(async() => {
+    await agent
+      .post('/api/v1/auth/login')
+      .send({
+        email: 'cool@cool.com',
+        password: 'password1'
+      });
   });
 
   beforeEach(() => {
@@ -20,15 +41,13 @@ describe('app routes', () => {
   });
 
   // eslint-disable-next-line no-unused-vars
-  let user; 
-  beforeEach(async() => {
-    user = await User.create({
-      name: 'calvin',
-      email: 'cool@cool.cool', 
-      password: 'coolidge'
-    }); 
-  });
-
+  // let user; 
+  // beforeEach(async() => {
+  //   user = await User.create({
+  //     email: 'cool@cool.cool', 
+  //     password: 'coolidge'
+  //   }); 
+  // });
 
   it('should post a new user properly', () => {
     return request(app)
@@ -97,5 +116,16 @@ describe('app routes', () => {
         }); 
       }); 
   }); 
-}); 
 
+  it('can user a verification path to determine a logged in user', async() => {
+    return agent
+      .get('/api/v1/auth/verify')
+      .then(res => {
+        expect (res.body).toEqual({
+          _id: expect.any(String),
+          email: 'cool@cool.com',
+          __v: 0
+        });
+      });
+  });
+}); 
