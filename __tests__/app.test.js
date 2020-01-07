@@ -7,6 +7,7 @@ const mongoose = require('mongoose');
 const User = require('../lib/modles/User.js'); 
 
 let agent; 
+// eslint-disable-next-line no-unused-vars
 let user; 
 
 describe('app routes', () => {
@@ -39,15 +40,6 @@ describe('app routes', () => {
   afterAll(() => {
     return mongoose.connection.close();
   });
-
-  // eslint-disable-next-line no-unused-vars
-  // let user; 
-  // beforeEach(async() => {
-  //   user = await User.create({
-  //     email: 'cool@cool.cool', 
-  //     password: 'coolidge'
-  //   }); 
-  // });
 
   it('should post a new user properly', () => {
     return request(app)

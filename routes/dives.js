@@ -1,6 +1,5 @@
 const { Router } = require('express');
 const Dives = require('../lib/modles/Dives');
-const ensureAuth = require('../lib/middleware/ensure-auth');
 
 // eslint-disable-next-line new-cap
 module.exports = Router()
@@ -10,7 +9,7 @@ module.exports = Router()
       .then(dive => res.send(dive));
   })
 
-  .get('/', ensureAuth, (req, res) => {
+  .get('/', (req, res) => {
     let diveQuery = {};
     Dives
       .find(diveQuery)

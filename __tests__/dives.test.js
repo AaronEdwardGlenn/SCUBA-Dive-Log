@@ -7,6 +7,7 @@ const Dives = require('../lib/modles/Dives');
 const User = require('../lib/modles/User');
 
 let agent;
+// eslint-disable-next-line no-unused-vars
 let user;
 
 describe('Dive model routes', () => {
